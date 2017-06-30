@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>Computed</title>
+
+    <!--
+      v-on: listen DOM events. You can use an alias instead @: v-on:click="" become @click=""
+      event modifiers:
+        .prevent, .stop, .capture, .self
+      keycodes:
+        enter, tab, delete, esc, space, up, down, left, right
+      computed properties work like function that you can use as properties
+    -->
+  </head>
+
+  <body>
+    <div class="container">
+      a={{a}}, b={{b}}
+      <input v-model.number="a">
+      <pre>{{ $data }}</pre>
+    </div>
+  </body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+  <script type="text/javascript">
+    new Vue({
+      el: '.container',
+      data: {
+        a: 1
+      },
+      computed: {
+        b: function() {
+          return this.a + 1;
+        }
+      }
+    })
+  </script>
+</html>
