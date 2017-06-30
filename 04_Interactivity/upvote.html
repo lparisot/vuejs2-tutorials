@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>UpVotes</title>
+
+    <!--
+      v-on: listen DOM events. You can use an alias instead @: v-on:click="" become @click=""
+    -->
+  </head>
+
+  <body>
+    <div class="container">
+      <button type="button" class="btn btn-primary btn-block" v-on:click="upvotes++">Upvote!</button>
+      <button type="button" class="btn btn-success btn-block" v-on:click="upvote">Upvote!</button>
+      <pre>{{ $data }}</pre>
+    </div>
+  </body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+  <script>
+    new Vue({
+      el: '.container',
+      data: {
+        upvotes: 0
+      },
+      methods: {
+        upvote: function() {
+          this.upvotes++;
+        }
+      }
+    })
+  </script>
+</html>
