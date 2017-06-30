@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>Elections</title>
+
+    <!--
+      v-for: loop through each item in an array
+    -->
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>People of vue</h1>
+      <div>
+        <ul class="list-group">
+          <li v-for="candidat in candidats" class="list-group-item">
+            Mr. {{ candidat.name }} {{ candidat.votes }}
+            <button type="button" class="btn btn-primary" @click="candidat.votes++">Vote</button>
+          </li>
+        </ul>
+      </div>
+      <input type="text" id="delete" @keyup.delete="reset" placeholder="press 'delete' to reset">
+      <h2>Our mayor is Mr. {{mayor.name}}</h2>
+      <pre>{{ $data }}</pre>
+    </div>
+  </body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+  <script>
+    new Vue({
+      el: '.container',
+      data: {
+        candidats: [
+          { name: "Black", votes: 0 },
+          { name: "Pink", votes: 0 },
+          { name: "White", votes: 0 },
+          { name: "Brown", votes: 0 }
+        ]
+      },
+      methods: {
+        reset: function() {
+          this.candidats.map(function(candidat) {
+            candidat.votes = 0;
+          });
+        }
+      },
+      computed: {
+        mayor: function() {
+          var c = this.candidats.slice();
+          var sorted = c.sort(function(a, b) {
+            return a.votes < b.votes;
+          });
+          return sorted[0];
+        }
+      }
+    })
+  </script>
+</html>
