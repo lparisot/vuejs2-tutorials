@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>Greetings friend</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Hello {{name}}</h2>
+      <form class="form-inline">
+        <div class="form-group">
+          <label for="name">Enter your name:</label>
+          <input v-model="name" type="text" class="form-control" id="name" placeholder="Name">
+        </div>
+      </form>
+      <p>Display data content:</p>
+      <pre>{{ $data }}</pre>
+    </div>
+  </body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+  <script>
+    new Vue({
+      el: '.container',
+      data: {
+        //empty variable binded to input
+        name: ""
+      }
+    })
+  </script>
+</html>
