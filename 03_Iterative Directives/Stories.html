@@ -17,6 +17,16 @@
             {{ index }}. {{ story.writer }} said "{{ story.plot }}"
           </li>
         </ul>
+        <ul class="list-group">
+          <li v-for="(story, index) in stories" class="list-group-item">
+            Story {{ index }}
+            <ul class="list-group">
+              <li v-for="(value, key, index) in story" class="list-group-item">
+                Property {{ index }} : {{ key }} = {{ value }}
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
       <pre>{{ $data }}</pre>
     </div>
@@ -28,9 +38,9 @@
       el: '.container',
       data: {
         stories: [
-          { plot: "I crashed my car today!", writer: "Alex" },
-          { plot: "Yesterday, someone stole my bag!", writer: "John" },
-          { plot: "Someone ate my chocolate...", writer: "John" }
+          { plot: "I crashed my car today!", writer: "Alex", upvotes: 47 },
+          { plot: "Yesterday, someone stole my bag!", writer: "John", upvotes: 12 },
+          { plot: "Someone ate my chocolate...", writer: "John", upvotes: 100 }
         ]
       }
     })
