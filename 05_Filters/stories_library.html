@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>User Stories</title>
+
+    <!--
+      v-for: loop through each item in an array
+      using Lodash to order
+    -->
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Let's hear some stories!</h1>
+      <div>
+        <h3>Ordered stories</h3>
+        <ul class="list-group">
+          <li v-for="story in orderedStories" class="list-group-item">
+            {{ story.writer }} said "{{ story.plot }}" and upvoted {{ story.upvotes }} times.
+          </li>
+        </ul>
+        <button class="btn btn-primary" @click="reverseOrder">Reverse Order</button>
+      <pre>{{ $data }}</pre>
+    </div>
+  </body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <script>
+    new Vue({
+      el: '.container',
+      data: {
+        stories: [
+          { plot: "I crashed my car today!", writer: "Alex", upvotes: 28 },
+          { plot: "Yesterday, someone stole my bag!", writer: "John", upvotes: 8 },
+          { plot: "Someone ate my chocolate...", writer: "John", upvotes: 51 },
+          { plot: "I ate someone's chocolate...", writer: "Alex", upvotes: 74 }
+        ],
+        order: 'desc'
+      },
+      methods: {
+        reverseOrder: function() {
+          this.order = (this.order === 'desc') ? 'asc' : 'desc';
+        }
+      },
+      computed: {
+        orderedStories: function() {
+          var order = this.order;
+          return _.orderBy(this.stories, 'upvotes', [order]);
+        }
+      }
+    })
+  </script>
+</html>

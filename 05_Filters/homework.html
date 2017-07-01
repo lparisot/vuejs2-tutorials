@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>People of Gaul</title>
+
+    <!--
+      v-for: loop through each item in an array
+    -->
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Let's hear some stories!</h1>
+      <div>
+        <h3>People of Gaul</h3>
+        <ul class="list-group">
+          <li v-for="people in orderedPeople" class="list-group-item">
+            {{ people.name }}  {{ people.age }}
+          </li>
+        </ul>
+
+        <h3>"Old" People of Gaul</h3>
+        <ul class="list-group">
+          <li v-for="people in old" class="list-group-item">
+            {{ people.name }}  {{ people.age }}
+          </li>
+        </ul>
+      </div>
+      <pre>{{ $data }}</pre>
+    </div>
+  </body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <script>
+    new Vue({
+      el: '.container',
+      data: {
+        population: [
+          { name: "Obelix", age: 31 },
+          { name: "Asterix", age: 32 },
+          { name: "Julius Caesar", age: 56 },
+          { name: "Majestix", age: 62 },
+          { name: "Agecanonix", age: 100}
+        ],
+        order: 'asc',
+        older: 60
+      },
+      computed: {
+        old: function() {
+          var older = this.older;
+          return this.population.filter(function(people) {
+            return people.age > older;
+          });
+        },
+        orderedPeople: function() {
+          var order = this.order;
+          return _.orderBy(this.population, 'age', [order]);
+        }
+      }
+    })
+  </script>
+</html>
