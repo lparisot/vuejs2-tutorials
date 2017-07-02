@@ -4,27 +4,27 @@
     <title>Awesome Stories</title>
 
     <!--
-      v-for: loop through each item in an array
-      using Lodash to order
+      v-bind: dynamically bind one or more attribute, or a component prop, to an expression
+        shorthand :, vbind:story="..." = :story:"..."
     -->
   </head>
 
   <body>
     <div class="container">
-      <story plot="My horse is amazing"></story>
-      <story plot="The dark side of the force is stronger"></story>
+      <story v-bind:story="{plot: 'My horse is amazing', writer: 'Mr. Weebl'}"></story>
+      <story :story="{plot: 'The dark side of the force is stronger', writer: 'Darth Vader'}"></story>
     </div>
   </body>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
 
   <template id="story-template">
-    <h1>{{ plot }}</h1>
+    <h1>{{ story.writer }} said "{{ story.plot }}"</h1>
   </template>
 
   <script type="text/javascript">
     Vue.component('story', {
-      props: ['plot'],
+      props: ['story'],
       template: "#story-template"
     });
 
