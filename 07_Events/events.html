@@ -10,35 +10,44 @@
       listen to an event but only once using $once(event)
       remove event listeners using $off()
 
-      use of created lifecycle hook.
+      parent-child communication.
+      child emits 'voted' when button is clicked and parent receiving event increment votes
     -->
   </head>
 
   <body>
     <div class="container text-center">
       <p style="font-size: 140px;">{{ votes }}</p>
-      <button class="btn btn-success" @click="vote">Vote</button>
+      <food @voted="countVote()" name="Cheeseburger"></food>
     </div>
   </body>
+
+  <template id="food">
+    <button class="btn btn-success" @click="vote">{{ name }}</button>
+  </template>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
 
   <script type="text/javascript">
+    Vue.component('food', {
+      template: '#food',
+      props: ['name'],
+      methods: {
+        vote: function() {
+          this.$emit('voted');
+        }
+      }
+    })
+
     new Vue({
       el: '.container',
       data: {
         votes: 0
       },
       methods: {
-        vote: function(writer) {
-          this.$emit('voted');
-        }
-      },
-      // after the instance is created
-      created() {
-        this.$on('voted', function(button) {
+        countVote: function() {
           this.votes++;
-        });
+        }
       }
     })
   </script>
