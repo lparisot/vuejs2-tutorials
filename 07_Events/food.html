@@ -22,6 +22,7 @@
       <h1>Food Battle</h1>
       <p style="font-size: 140px;">{{ votes.count }}</p>
       <button class="btn btn-danger" @click="reset">Reset votes</button>
+      <button class="btn btn-danger" @click="stop">Stop events</button>
       <hr />
 
       <div class="row">
@@ -92,6 +93,10 @@
             log: []
           };
           bus.$emit('reset');
+        },
+        stop: function() {
+          console.log("stop");
+          bus.$off(['voted']);
         }
       },
       created() {
