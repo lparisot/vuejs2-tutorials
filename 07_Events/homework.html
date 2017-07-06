@@ -1,0 +1,91 @@
+<html>
+  <head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>Horses</title>
+
+    <!--
+      v-bind: dynamically bind one or more attribute, or a component prop, to an expression
+        shorthand :, vbind:story="..." = :story:"..."
+    -->
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Chariot shopping</h1>
+      <div>
+        <ul class="list-group">
+          <chariot v-for="(chariot, index) in chariots" :key="index" :chariot="chariot" :selected="selected" @select="updateChariot"></chariot>
+        </ul>
+        <pre>{{ $data }}</pre>
+      </div>
+    </div>
+  </body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+
+  <template id="chariot-template">
+    <li class="list-group-item">
+      "{{ chariot.name }}" has {{ chariot.number }} horse(s).
+      <button :disabled="isCurrent" @click="pick(chariot)" class="btn btn-default">{{action}}</button>
+    </li>
+  </template>
+
+  <script type="text/javascript">
+    Vue.component('chariot', {
+      template: "#chariot-template",
+      props: ['chariot', 'selected'],
+      methods: {
+        pick: function(chariot) {
+          this.$emit('select', chariot);
+        }
+      },
+      computed: {
+        isCurrent: function() {
+          return this.chariot.name == this.selected.name;
+        },
+        notSelected: function() {
+          return this.selected.name == null;
+        },
+        moreThanSelected: function() {
+          return this.chariot.number > this.selected.number;
+        },
+        lessThanSelected: function() {
+          return this.chariot.number < this.selected.number;
+        },
+        action: function() {
+          if (this.notSelected) {
+            return "Pick Chariot";
+          }
+          else if (this.isCurrent) {
+            return "Riding!";
+          }
+          else if (this.moreThanSelected) {
+            return "Hire Horses";
+          }
+          else if (this.lessThanSelected) {
+            return "Dismiss Horses";
+          }
+          return "error";
+        }
+      }
+    });
+
+    new Vue({
+      el: '.container',
+      data: {
+        chariots: [
+          { name: "Olympus", number: 4 },
+          { name: "Sagitta", number: 3 },
+          { name: "Icarus", number: 2 },
+          { name: "Abraxas", number: 1 }
+        ],
+        selected: {}
+      },
+      methods: {
+        updateChariot: function(chariot) {
+          this.selected = chariot;
+        }
+      }
+    })
+  </script>
+</html>
