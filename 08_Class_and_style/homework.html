@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>homework</title>
+
+    <!--
+      v-bind: dynamically bind one or more attribute, or a component prop, to an expression
+        shorthand :, vbind:story="..." = :story:"..."
+    -->
+  </head>
+
+  <body>
+    <div class="container" :style="background">
+      <div class="centered">
+        <input type="color"v-model="background.backgroundColor"></button>
+      </div>
+    </div>
+  </body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+
+  <script type="text/javascript">
+    new Vue({
+      el: '.container',
+      data: {
+        background: {
+          backgroundColor: "#0000ff"
+        }
+      }
+    })
+  </script>
+
+  <style type="text/css">
+    .centered {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-left: -30px;
+    }
+    .container {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</html>
