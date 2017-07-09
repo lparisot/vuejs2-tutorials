@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>Awesome Stories</title>
+
+    <!--
+      Open the page on http://192.168.1.84:3000/stories.html (replace ip address by yours or localhost)
+    -->
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Stories</h1>
+      <ul class="list-group">
+        <story v-for="(story, index) in stories" :story="story" :favorite="favorite" :key="index"></story>
+      </ul>
+      <pre>{{ $data }}</pre>
+    </div>
+  </body>
+
+  <template id="story-template">
+    <li class="list-group-item">
+      {{ story.writer }} said "{{ story.plot }}".
+      Story upvotes {{ story.upvotes }}.
+      <button v-show="!story.voted" @click="upvote" class="btn btn-default">Upvote</button>
+      <button v-show="!isFavorite" @click="setFavorite" class="btn btn-primary">Favorite</button>
+      <span v-show="isFavorite" class="glyphicon glyphicon-star pull-right" aria-hidden="true"></span>
+    </li>
+  </template>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+  <script type="text/javascript">
+    Vue.component('story', {
+      props: ['story', 'favorite'],
+      template: "#story-template",
+      methods: {
+        upvote: function() {
+          this.story.upvotes += 1;
+          this.story.voted = true;
+        },
+        setFavorite: function() {
+          this.favorite = this.story;
+        }
+      },
+      computed: {
+        isFavorite: function() {
+          return this.story == this.favorite;
+        }
+      }
+    });
+
+    var vm = new Vue({
+      el: '.container',
+      data: {
+        stories: [],
+        favorite: {}
+      },
+      mounted: function() {
+        $.get('/api/stories', function(data) {
+          vm.stories = data;
+        })
+      }
+    })
+  </script>
+</html>
