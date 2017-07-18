@@ -11,42 +11,68 @@
   <body>
     <div class="container">
       <h1>Stories</h1>
-      <ul class="list-group">
-        <story v-for="(story, index) in stories" :story="story" :favorite="favorite" :key="index"></story>
-      </ul>
-      <pre>{{ $data }}</pre>
+      <table class="table table-striped">
+        <tr>
+          <th>#</th>
+          <th>Plot</th>
+          <th>Writer</th>
+          <th>Upvotes</th>
+          <th>Actions</th>
+        </tr>
+        <tr v-for="(story, index) in stories" is="story" :story="story" :favorite="favorite" :key="index"></tr>
+      </table>
     </div>
   </body>
 
   <template id="story-template">
-    <li class="list-group-item">
-      {{ story.writer }} said "{{ story.plot }}".
-      Story upvotes {{ story.upvotes }}.
-      <button v-show="!story.voted" @click="upvote" class="btn btn-default">Upvote</button>
-      <button v-show="!isFavorite" @click="setFavorite" class="btn btn-primary">Favorite</button>
-      <span v-show="isFavorite" class="glyphicon glyphicon-star pull-right" aria-hidden="true"></span>
-    </li>
+    <tr>
+      <td>{{ story.id }}</td>
+      <td>
+        <span>{{ story.plot }}</span>
+      </td>
+      <td>
+        <span>{{ story.writer }}</span>
+      </td>
+      <td>{{ story.upvotes}}</td>
+      <td>
+        <div class="btn-group">
+          <button  @click="upvoteStory(story)" class="btn btn-primary">Upvote</button>
+          <button  @click="deleteStory(story)" class="btn btn-danger">Upvote</button>
+        </div>
+      </td>
+    </tr>
   </template>
+
+  <p class="lead">
+    Here's a list of all your stories
+  </p>
+  <pre>{{ $data }}</pre>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
   <script type="text/javascript">
     Vue.component('story', {
-      props: ['story', 'favorite'],
+      props: ['story'],
       template: "#story-template",
       methods: {
-        upvote: function() {
-          this.story.upvotes += 1;
-          this.story.voted = true;
+        upvoteStory: function(story) {
+          story.upvotes++;
+          $.ajax({
+            url: '/api/stories/' + story.id,
+            type: 'PATCH',
+            data: story
+          });
         },
-        setFavorite: function() {
-          this.favorite = this.story;
-        }
-      },
-      computed: {
-        isFavorite: function() {
-          return this.story == this.favorite;
+        deleteStory: function(story) {
+          var index = vm.stories.indexOf(story);
+
+          vm.stories.splice(index, 1);
+
+          $.ajax({
+            url: '/api/stories/' + story.id,
+            type: 'DELETE'
+          });
         }
       }
     });
@@ -54,8 +80,7 @@
     var vm = new Vue({
       el: '.container',
       data: {
-        stories: [],
-        favorite: {}
+        stories: []
       },
       mounted: function() {
         $.get('/api/stories', function(data) {
